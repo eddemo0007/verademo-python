@@ -52,7 +52,7 @@ steps:
 - task: Veracode@3
   inputs:
     ConnectionDetailsSelection: 'Credentials'
-    apiId: '$(VERACODE_API_ID)'  
+    apiId: '$(VERACODE_API_ID)'
     apiKey: '$(VERACODE_API_KEY)'
     veracodeAppProfile: 'verademo-python'
     version: '$(build.buildNumber)'
