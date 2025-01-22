@@ -1,22 +1,20 @@
 # Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
+# Start with a minimal pipeline that you can customize to build, test, and deploy your code.
 # https://aka.ms/yaml
 
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- checkout: none # Skip the default repository checkout
 - script: |
     echo "Cloning the repository: verademo-python"
     mkdir -p clonePath
     cd clonePath
-    git clone https://github.com/eddemo0007/verademo-python
-  displayName: Clone Repository: verademo-python
+    git clone https://github.com/eddemo0007/verademo-python.git
+  displayName: 'Clone Repository: verademo-python'
