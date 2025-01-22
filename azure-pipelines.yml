@@ -41,6 +41,12 @@ steps:
     ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
   displayName: 'Package Source Code for Veracode'
 
+# Step: List Contents of the Artifacts Folder
+- script: |
+    echo "Listing contents of the artifacts folder"
+    ls -lh $(ARTIFACTS_FOLDER)
+  displayName: 'List Contents of Artifacts Folder'
+  
 # Step 5: Upload and Scan with Veracode
 - task: Veracode@3
   inputs:
