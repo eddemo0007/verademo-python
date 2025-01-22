@@ -42,20 +42,14 @@ steps:
   displayName: 'Package Source Code for Veracode'
 
 # Step 5: Upload and Scan with Veracode
-- script: |
-    echo "Uploading and scanning the package with Veracode"
-    ./veracode uploadandscan \
-      --appname "verademo-python" \
-      --filepath $(SCAN_FILE) \
-      --vid $(VERACODE_API_ID) \
-      --vkey $(VERACODE_API_KEY) \
-      --createprofile true \
-      --scanallnonfatalmodules true \
-      --debug
-  displayName: 'Upload and Scan with Veracode'
-  env:
-    VERACODE_API_ID: $(VERACODE_API_ID)  # Inject secret variable
-    VERACODE_API_KEY: $(VERACODE_API_KEY)  # Inject secret variable
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'Veracode'
+    veracodeAppProfile: "verademo-python"
+    version: '$(build.buildNumber)'
+    filepath: '$(SCAN_FILE)'
+    maximumWaitTime: '360'
 
 # Step 6: Publish artifacts (optional)
 - task: PublishBuildArtifacts@1
