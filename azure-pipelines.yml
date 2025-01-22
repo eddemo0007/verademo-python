@@ -1,20 +1,50 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build, test, and deploy your code.
-# https://aka.ms/yaml
+# Starter pipeline with Veracode Packager
+# This pipeline clones the repository and packages it for Veracode scanning.
 
 trigger:
-- main
+- none
 
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  CLI_VERSION: "2.33.0"
+  CLI_DOWNLOAD_URL: "https://tools.veracode.com/veracode-cli/veracode-cli_$(CLI_VERSION)_linux_x86.tar.gz"
+  CLI_FOLDER: "cli"
+  ARTIFACTS_FOLDER: "$(System.DefaultWorkingDirectory)/veracode-artifacts"
+
 steps:
+# Step 1: Greet the world
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+# Step 2: Clone the repository
 - script: |
     echo "Cloning the repository: verademo-python"
     mkdir -p clonePath
     cd clonePath
     git clone https://github.com/eddemo0007/verademo-python.git
   displayName: 'Clone Repository: verademo-python'
+
+# Step 3: Download and extract Veracode CLI
+- script: |
+    echo "Downloading Veracode CLI version $(CLI_VERSION)"
+    curl -sSO $(CLI_DOWNLOAD_URL)
+    tar -xvf veracode-cli_$(CLI_VERSION)_linux_x86.tar.gz
+    mv veracode-cli_$(CLI_VERSION)_linux_x86 $(CLI_FOLDER)
+  displayName: 'Download and Extract Veracode CLI'
+
+# Step 4: Package the source code for Veracode scanning
+- script: |
+    echo "Packaging source code for Veracode scan"
+    mkdir -p $(ARTIFACTS_FOLDER)
+    ./$(CLI_FOLDER)/veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
+  displayName: 'Package Source Code for Veracode'
+
+# Step 5: Publish artifacts (optional)
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(ARTIFACTS_FOLDER)'
+    artifactName: 'veracode-artifacts'
+    publishLocation: 'Container'
+  displayName: 'Publish Veracode Artifacts'
