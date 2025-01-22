@@ -44,7 +44,6 @@ steps:
 # Step 5: Upload and Scan with Veracode
 - task: Veracode@3
   inputs:
-    ConnectionDetailsSelection: 'Credentials'
     apiId: $(VERACODE_API_ID)
     apiKey: $(VERACODE_API_KEY)
     veracodeAppProfile: 'verademo-python'
