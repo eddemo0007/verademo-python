@@ -1,4 +1,4 @@
-# Starter pipeline with Veracode Packager
+# Azure DevOps Pipeline with Veracode Packager
 # This pipeline clones the repository and packages it for Veracode scanning.
 
 trigger:
@@ -29,9 +29,9 @@ steps:
 # Step 3: Download and extract Veracode CLI
 - script: |
     echo "Downloading Veracode CLI version $(CLI_VERSION)"
-    curl -sSO $(CLI_DOWNLOAD_URL)
-    tar -xvf veracode-cli_$(CLI_VERSION)_linux_x86.tar.gz
-    mv veracode-cli_$(CLI_VERSION)_linux_x86 $(CLI_FOLDER)
+    curl -L -o veracode-cli.tar.gz "$(CLI_DOWNLOAD_URL)"
+    tar -xvzf veracode-cli.tar.gz
+    mv veracode-cli-$(CLI_VERSION)-linux-x86 $(CLI_FOLDER)
   displayName: 'Download and Extract Veracode CLI'
 
 # Step 4: Package the source code for Veracode scanning
