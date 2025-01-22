@@ -1,5 +1,4 @@
-# Azure DevOps Pipeline with Veracode CLI Installer
-# This pipeline clones the repository and packages it for Veracode scanning.
+# Azure DevOps Pipeline with Veracode CLI Installer (Corrected)
 
 trigger:
 - main
@@ -8,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  CLI_FOLDER: "cli"
+  CLI_FOLDER: "veracode"
   ARTIFACTS_FOLDER: "$(System.DefaultWorkingDirectory)/veracode-artifacts"
 
 steps:
@@ -28,14 +27,16 @@ steps:
 - script: |
     echo "Installing Veracode CLI"
     curl -fsS https://tools.veracode.com/veracode-cli/install | sh
-    echo "Veracode CLI installed at $(pwd)/veracode"
+    echo "Veracode CLI installed successfully."
+    ls -lh # Check installed files
   displayName: 'Install Veracode CLI'
 
 # Step 4: Package the source code for Veracode scanning
 - script: |
     echo "Packaging source code for Veracode scan"
     mkdir -p $(ARTIFACTS_FOLDER)
-    ./veracode/veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
+    ./veracode --help || echo "Veracode CLI executable not found"
+    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
   displayName: 'Package Source Code for Veracode'
 
 # Step 5: Publish artifacts (optional)
