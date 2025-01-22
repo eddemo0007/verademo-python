@@ -35,10 +35,11 @@ steps:
   displayName: 'Install Veracode CLI'
 
 # Step 4: Package the source code for Veracode scanning
+#     ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
 - script: |
     echo "Packaging source code for Veracode scan"
     mkdir -p $(ARTIFACTS_FOLDER)
-    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
+    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust
   displayName: 'Package Source Code for Veracode'
 
 # Step: List Contents of the Artifacts Folder
