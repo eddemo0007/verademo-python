@@ -1,4 +1,4 @@
-# Azure DevOps Pipeline with Veracode CLI Installer (Corrected)
+# Azure DevOps Pipeline with Veracode CLI Upload and Scan
 
 trigger:
 - main
@@ -9,6 +9,9 @@ pool:
 variables:
   CLI_FOLDER: "veracode"
   ARTIFACTS_FOLDER: "$(System.DefaultWorkingDirectory)/veracode-artifacts"
+  SCAN_FILE: "$(ARTIFACTS_FOLDER)/veracode-auto-pack-verademo-python-python.zip"
+  VERACODE_API_ID: "$(VERACODE_API_ID)"  # Set this as a secret variable in Azure DevOps
+  VERACODE_API_KEY: "$(VERACODE_API_KEY)"  # Set this as a secret variable in Azure DevOps
 
 steps:
 # Step 1: Greet the world
@@ -35,11 +38,26 @@ steps:
 - script: |
     echo "Packaging source code for Veracode scan"
     mkdir -p $(ARTIFACTS_FOLDER)
-    ./veracode --help || echo "Veracode CLI executable not found"
     ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
   displayName: 'Package Source Code for Veracode'
 
-# Step 5: Publish artifacts (optional)
+# Step 5: Upload and Scan with Veracode
+- script: |
+    echo "Uploading and scanning the package with Veracode"
+    ./veracode uploadandscan \
+      --appname "verademo-python" \
+      --filepath $(SCAN_FILE) \
+      --vid $(VERACODE_API_ID) \
+      --vkey $(VERACODE_API_KEY) \
+      --createprofile true \
+      --scanallnonfatalmodules true \
+      --debug
+  displayName: 'Upload and Scan with Veracode'
+  env:
+    VERACODE_API_ID: $(VERACODE_API_ID)  # Inject secret variable
+    VERACODE_API_KEY: $(VERACODE_API_KEY)  # Inject secret variable
+
+# Step 6: Publish artifacts (optional)
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(ARTIFACTS_FOLDER)'
