@@ -40,7 +40,7 @@ steps:
 - script: |
     echo "Packaging source code for Veracode scan"
     mkdir -p $(ARTIFACTS_FOLDER)
-    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust
+    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
   displayName: 'Package Source Code for Veracode'
 
 # Step: List Contents of the Artifacts Folder
