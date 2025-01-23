@@ -4,8 +4,8 @@ trigger:
 - main
 
 pool:
-  # image: veracode/scm-packaging:3.0.0
-  vmImage: 'ubuntu-latest'
+  image: 'veracode/scm-packaging:3.0.0'
+  #vmImage: 'ubuntu-latest'
 
 variables:
   CLI_FOLDER: "veracode"
