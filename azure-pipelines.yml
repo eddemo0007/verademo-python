@@ -9,7 +9,8 @@ pool:
 variables:
   CLI_FOLDER: "veracode"
   ARTIFACTS_FOLDER: "$(System.DefaultWorkingDirectory)/veracode-artifacts"
-  SCAN_FILE: "$(ARTIFACTS_FOLDER)/veracode-auto-pack-verademo-python-python.zip"
+#  SCAN_FILE: "$(ARTIFACTS_FOLDER)/veracode-auto-pack-verademo-python-python.zip"
+  SCAN_FILE: "$(ARTIFACTS_FOLDER)"
   VERACODE_API_ID: "$(VERACODE_API_ID)"  # Set this as a secret variable in Azure DevOps
   VERACODE_API_KEY: "$(VERACODE_API_KEY)"  # Set this as a secret variable in Azure DevOps
 
