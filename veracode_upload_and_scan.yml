@@ -18,19 +18,19 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-  - script: |
-      curl -O -L https://tools.veracode.com/integrations/API-Wrappers/Java/bin/VeracodeJavaAPI.zip
-      unzip -o VeracodeJavaAPI.zip -d veracode
-    displayName: 'Download and Extract Veracode Java API Wrapper'
+- script: |
+    curl -O -L https://tools.veracode.com/integrations/API-Wrappers/Java/bin/VeracodeJavaAPI.zip
+    unzip -o VeracodeJavaAPI.zip -d veracode
+  displayName: 'Download and Extract Veracode Java API Wrapper'
 
-  - script: |
-      java -jar veracode/VeracodeJavaAPI.jar \
-        -vid '58902f130e5dc212f83b1da108928b56' \
-        -vkey '1d282d5563c46035ab74e78befed3169d8be0e098a477321e27b629a88d82439cd00c3338d9cfccb87eae3b11276fa405f01dedb1855845fdd60bb3aaab58859' \
-        -action uploadandscan \
-        -appname 'Test0001' \
-        -createprofile true \
-        -filepath 'app/target/your-application-artifact.jar' \
-        -version "$(SCAN_VERSION)" \
-        -deleteincompletescan 1
-    displayName: 'Upload and Scan with Veracode'
+- script: |
+    java -jar veracode/VeracodeJavaAPI.jar \
+      -vid '58902f130e5dc212f83b1da108928b56' \
+      -vkey '1d282d5563c46035ab74e78befed3169d8be0e098a477321e27b629a88d82439cd00c3338d9cfccb87eae3b11276fa405f01dedb1855845fdd60bb3aaab58859' \
+      -action uploadandscan \
+      -appname 'Test0001' \
+      -createprofile true \
+      -filepath 'app/target/your-application-artifact.jar' \
+      -version "$(SCAN_VERSION)" \
+      -deleteincompletescan 1
+  displayName: 'Upload and Scan with Veracode'
