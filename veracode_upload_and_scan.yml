@@ -38,16 +38,16 @@ steps:
 
 # Step 4: Package the source code for Veracode scanning
 #     ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
-- script: |
-    echo "Packaging source code for Veracode scan"
-    mkdir -p $(ARTIFACTS_FOLDER)
-    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust
-  displayName: 'Package Source Code for Veracode'
+#- script: |
+#    echo "Packaging source code for Veracode scan"
+#    mkdir -p $(ARTIFACTS_FOLDER)
+#    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust
+#  displayName: 'Package Source Code for Veracode'
 
-- script: |
-    curl -O -L https://tools.veracode.com/integrations/API-Wrappers/Java/bin/VeracodeJavaAPI.zip
-    unzip -o VeracodeJavaAPI.zip -d veracode
-  displayName: 'Download and Extract Veracode Java API Wrapper'
+#- script: |
+#    curl -O -L https://tools.veracode.com/integrations/API-Wrappers/Java/bin/VeracodeJavaAPI.zip
+#    unzip -o VeracodeJavaAPI.zip -d veracode
+#  displayName: 'Download and Extract Veracode Java API Wrapper'
 
 - script: |
     java -jar veracode/VeracodeJavaAPI.jar \
