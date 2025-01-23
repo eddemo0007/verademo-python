@@ -8,15 +8,41 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+variables:
+  CLI_FOLDER: "veracode"
+  ARTIFACTS_FOLDER: "$(System.DefaultWorkingDirectory)/veracode-artifacts"
+  SCAN_FILE: "$(ARTIFACTS_FOLDER)/veracode-auto-pack-verademo-python-python.zip"
+  VERACODE_API_ID: "$(VERACODE_API_ID)"  # Set this as a secret variable in Azure DevOps
+  VERACODE_API_KEY: "$(VERACODE_API_KEY)"  # Set this as a secret variable in Azure DevOps
 
 steps:
+# Step 1: Greet the world
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+# Step 2: Clone the repository
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    echo "Cloning the repository: verademo-python"
+    mkdir -p clonePath
+    cd clonePath
+    git clone https://github.com/eddemo0007/verademo-python.git
+  displayName: 'Clone Repository: verademo-python'
+
+# Step 3: Install Veracode CLI
+- script: |
+    echo "Installing Veracode CLI"
+    curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+    echo "Veracode CLI installed successfully."
+    ls -lh # Check installed files
+  displayName: 'Install Veracode CLI'
+
+# Step 4: Package the source code for Veracode scanning
+#     ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust --debug
+- script: |
+    echo "Packaging source code for Veracode scan"
+    mkdir -p $(ARTIFACTS_FOLDER)
+    ./veracode package --source clonePath/verademo-python/* --output $(ARTIFACTS_FOLDER) --trust
+  displayName: 'Package Source Code for Veracode'
 
 - script: |
     curl -O -L https://tools.veracode.com/integrations/API-Wrappers/Java/bin/VeracodeJavaAPI.zip
@@ -30,7 +56,7 @@ steps:
       -action uploadandscan \
       -appname 'Test0001' \
       -createprofile true \
-      -filepath 'app/target/your-application-artifact.jar' \
+      -filepath '$(SCAN_FILE)' \
       -version "$(SCAN_VERSION)" \
-      -deleteincompletescan 1
+      -deleteincompletescan
   displayName: 'Upload and Scan with Veracode'
