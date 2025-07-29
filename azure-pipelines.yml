@@ -60,7 +60,8 @@ steps:
     veracodeAppProfile: 'verademo-python'
     version: '$(build.buildNumber)'
     filepath: '$(SCAN_FILE)'
-    createProfile: true
+    importResults: true
+#    createProfile: true
     maximumWaitTime: '360'
 
 # Step 6: Publish artifacts (optional)
@@ -85,3 +86,4 @@ steps:
     iterationPath: '$(system.teamProject)'
     overwriteIterationPath: true
     flawImportLimit: '3'
+
