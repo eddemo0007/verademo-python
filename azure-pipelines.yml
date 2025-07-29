@@ -82,9 +82,10 @@ steps:
     scanType: 'Dynamic, Static, SCA'
     importType: 'All Unmitigated Flaws Violating Policy'
     workItemType: 'Task'
-    area: '$(system.teamProject)'
+#    area: '$(system.teamProject)'
+    area: 'verademo-python'
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: '$(system.teamProject)'
     overwriteIterationPath: true
-    flawImportLimit: '3'
+    flawImportLimit: '5'
 
