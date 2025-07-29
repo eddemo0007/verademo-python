@@ -53,7 +53,8 @@ steps:
 # Step 5: Upload and Scan with Veracode
 - task: Veracode@3
   inputs:
-    ConnectionDetailsSelection: 'Credentials'
+    ConnectionDetailsSelection: 'Service Connection'
+#    ConnectionDetailsSelection: 'Credentials'
 #    apiId: '58902f130e5dc212f83b1da108928b56'
 #    apiKey: '1d282d5563c46035ab74e78befed3169d8be0e098a477321e27b629a88d82439cd00c3338d9cfccb87eae3b11276fa405f01dedb1855845fdd60bb3aaab58859'
     veracodeAppProfile: 'verademo-python'
